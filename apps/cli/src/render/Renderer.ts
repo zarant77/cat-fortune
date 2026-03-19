@@ -33,7 +33,10 @@ function emptyFrameLine(innerWidth: number): string {
   return frameLine(" ".repeat(innerWidth));
 }
 
-function buildNormalContent(model: RenderModel): readonly string[] {
+function buildNormalContent(
+  model: RenderModel,
+  contentWidth: number,
+): readonly string[] {
   const content = new ScreenBuffer();
 
   renderHeader(content, model);
@@ -46,11 +49,14 @@ function buildNormalContent(model: RenderModel): readonly string[] {
       config.paylines,
       model.ui.gridMode,
     );
-    content.writeLines(grid.split("\n"));
+
+    for (const line of grid.split("\n")) {
+      content.writeLine(centerText(line, contentWidth));
+    }
   } else {
-    content.writeLine("·   ·   ·   ·   ·");
-    content.writeLine("·   ·   ·   ·   ·");
-    content.writeLine("·   ·   ·   ·   ·");
+    content.writeLine(centerText("·   ·   ·   ·   ·", contentWidth));
+    content.writeLine(centerText("·   ·   ·   ·   ·", contentWidth));
+    content.writeLine(centerText("·   ·   ·   ·   ·", contentWidth));
   }
 
   content.writeLine("");
@@ -106,7 +112,7 @@ export function render(model: RenderModel): void {
   const rawLines =
     model.ui.winPresentation !== null
       ? buildPresentationContent(model, contentWidth)
-      : normalizeLines(buildNormalContent(model));
+      : normalizeLines(buildNormalContent(model, contentWidth));
 
   const framed: string[] = [];
   framed.push(color(`┌${"─".repeat(innerWidth)}┐`, UI.text.frame));
