@@ -11,12 +11,85 @@ import { renderStatus } from "./StatusRenderer.js";
 
 const FRAME_CONTENT_HEIGHT = 20;
 
+let isAlternateBufferActive = false;
+let isCursorHidden = false;
+let isCleanupRegistered = false;
+
+function enterAlternateBuffer(): void {
+  if (process.stdout.isTTY !== true || isAlternateBufferActive) {
+    return;
+  }
+
+  process.stdout.write("\x1b[?1049h");
+  isAlternateBufferActive = true;
+}
+
+function exitAlternateBuffer(): void {
+  if (process.stdout.isTTY !== true || !isAlternateBufferActive) {
+    return;
+  }
+
+  process.stdout.write("\x1b[?1049l");
+  isAlternateBufferActive = false;
+}
+
+function hideCursor(): void {
+  if (process.stdout.isTTY !== true || isCursorHidden) {
+    return;
+  }
+
+  process.stdout.write("\x1b[?25l");
+  isCursorHidden = true;
+}
+
+function showCursor(): void {
+  if (process.stdout.isTTY !== true || !isCursorHidden) {
+    return;
+  }
+
+  process.stdout.write("\x1b[?25h");
+  isCursorHidden = false;
+}
+
+function cleanupAndExit(exitCode = 0): never {
+  try {
+    showCursor();
+    exitAlternateBuffer();
+  } finally {
+    process.exit(exitCode);
+  }
+}
+
+function registerCleanup(): void {
+  if (isCleanupRegistered) {
+    return;
+  }
+
+  process.once("SIGINT", () => cleanupAndExit(0));
+  process.once("SIGTERM", () => cleanupAndExit(0));
+  process.once("exit", () => {
+    showCursor();
+    exitAlternateBuffer();
+  });
+
+  isCleanupRegistered = true;
+}
+
+function ensureTerminalSession(): void {
+  if (process.stdout.isTTY !== true) {
+    return;
+  }
+
+  registerCleanup();
+  enterAlternateBuffer();
+  hideCursor();
+}
+
 function clearScreen(): void {
   if (process.stdout.isTTY !== true) {
     return;
   }
 
-  process.stdout.write("\x1b[?25l");
   process.stdout.write("\x1b[H");
   process.stdout.write("\x1b[2J");
 }
@@ -106,6 +179,8 @@ function normalizeLines(lines: readonly string[]): readonly string[] {
 }
 
 export function render(model: RenderModel): void {
+  ensureTerminalSession();
+
   const innerWidth = UI.frame.width - 2;
   const contentWidth = innerWidth - UI.frame.paddingX * 2;
 
