@@ -1,0 +1,25 @@
+{
+  "name": "cat-fortune",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces",
+    "lint": "eslint .",
+    "typecheck": "tsc -b --pretty",
+    "dev:cli": "npm run dev -w @cat-fortune/cli",
+    "dev:phaser": "npm run dev -w @cat-fortune/phaser",
+    "rtp": "tsx --tsconfig tsconfig.json tools/rtp-sim.ts",
+    "rtp:multi-seed": "tsx --tsconfig tsconfig.json tools/multi-seed-rtp-sim.ts"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.2",
+    "eslint": "^9.22.0",
+    "@types/node": "^24.0.0",
+    "tsx": "^4.19.3"
+  }
+}

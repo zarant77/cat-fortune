@@ -1,0 +1,17 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM"],
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "rootDir": "../../",
+    "outDir": "./dist-types",
+    "baseUrl": ".",
+    "paths": {
+      "@cat-fortune/core": ["../../packages/core/src/index.ts"],
+      "@cat-fortune/config": ["../../packages/config/src/index.ts"]
+    }
+  },
+  "include": ["src/**/*.ts", "vite.config.ts"]
+}

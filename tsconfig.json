@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@cat-fortune/core": ["packages/core/src"],
+      "@cat-fortune/config": ["packages/config/src"]
+    }
+  },
+  "files": [],
+  "references": [
+    { "path": "./packages/core" },
+    { "path": "./packages/config" },
+    { "path": "./apps/cli" }
+  ]
+}

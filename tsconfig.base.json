@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "strict": true,
+    "declaration": true,
+    "sourceMap": true,
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@cat-fortune/core": ["packages/core/src/index.ts"],
+      "@cat-fortune/config": ["packages/config/src/index.ts"]
+    }
+  }
+}

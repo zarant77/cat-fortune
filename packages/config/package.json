@@ -1,0 +1,12 @@
+{
+  "name": "@cat-fortune/config",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@cat-fortune/core": "*"
+  },
+  "scripts": {
+    "build": "tsc -b"
+  }
+}
