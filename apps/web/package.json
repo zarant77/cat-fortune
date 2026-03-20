@@ -1,5 +1,5 @@
 {
-  "name": "@cat-fortune/phaser",
+  "name": "@cat-fortune/web",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -11,8 +11,7 @@
   },
   "dependencies": {
     "@cat-fortune/config": "*",
-    "@cat-fortune/core": "*",
-    "phaser": "^3.90.0"
+    "@cat-fortune/core": "*"
   },
   "devDependencies": {
     "typescript": "^5.8.2",

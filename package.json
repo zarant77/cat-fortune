@@ -12,7 +12,7 @@
     "lint": "eslint .",
     "typecheck": "tsc -b --pretty",
     "dev:cli": "npm run dev -w @cat-fortune/cli",
-    "dev:phaser": "npm run dev -w @cat-fortune/phaser",
+    "dev:web": "npm run dev -w @cat-fortune/web",
     "rtp": "tsx --tsconfig tsconfig.json tools/rtp-sim.ts",
     "rtp:multi-seed": "tsx --tsconfig tsconfig.json tools/multi-seed-rtp-sim.ts"
   },
